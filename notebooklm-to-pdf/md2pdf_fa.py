@@ -156,6 +156,9 @@ def clean_latex(text: str) -> str:
     return text
 
 
+OPTION_RE = re.compile(r"^(الف|ب|ج|د)\)\s")
+
+
 def normalize_inline(text: str, persian_digits: bool = True) -> str:
     """
     متن را برای موتور markdown کتابخانهٔ fpdf2 آماده می‌کند:
@@ -442,7 +445,10 @@ def parse_markdown(text: str) -> list[Block]:
 
     def flush_paragraph() -> None:
         if paragraph:
-            joined = " ".join(part.strip() for part in paragraph).strip()
+            joined = ""
+            for part in paragraph:
+                joined += part + ("" if part.endswith("\n") else " ")
+            joined = joined.strip()
             if joined:
                 blocks.append(Block("p", text=joined))
             paragraph.clear()
@@ -514,7 +520,12 @@ def parse_markdown(text: str) -> list[Block]:
             while index < len(lines) and QUOTE_RE.match(lines[index]):
                 quote_lines.append(QUOTE_RE.match(lines[index]).group(1))  # type: ignore[union-attr]
                 index += 1
-            blocks.append(Block("quote", text=" ".join(part for part in quote_lines if part).strip()))
+            qtext = ""
+            for part in quote_lines:
+                if not part.strip():
+                    continue
+                qtext += part.strip() + ("\n" if part.endswith("  ") else " ")
+            blocks.append(Block("quote", text=qtext.strip()))
             continue
 
         # لیست‌ها
@@ -547,7 +558,10 @@ def parse_markdown(text: str) -> list[Block]:
             blocks.append(Block(kind, items=items))
             continue
 
-        paragraph.append(stripped)
+        # شکست خط اجباری: دو فاصلهٔ انتهای سطر، یا آغاز گزینه‌های تستی (الف) ب) ج) د))
+        if paragraph and OPTION_RE.match(stripped) and not paragraph[-1].endswith("\n"):
+            paragraph[-1] += "\n"
+        paragraph.append(stripped + ("\n" if line.endswith("  ") else ""))
         index += 1
 
     flush_paragraph()
@@ -788,8 +802,8 @@ class Handout(FPDF):
 
         for section in outline:
             title = (section.name or "").strip()
-            if not title:
-                continue
+            if not title or int(section.level) > 1:
+                continue  # در فهرست فقط دو سطح اول می‌آید
             level = max(0, min(int(section.level), 2))
             page_label = fa_num(section.page_number) if self.persian_digits else str(section.page_number)
             indent = 5.0 * level
@@ -847,8 +861,10 @@ class Handout(FPDF):
 
         if level == 1 and self.get_y() > self.t_margin + 12:
             self.add_page()
+        self.ensure_space(line_h * 2.6 + 22)
+        if self.get_y() < self.t_margin + 6:
+            self.space(4)
         self.space(space_before)
-        self.ensure_space(line_h * 2.6)
         self.set_font("Vazir", "B", size)
         self.set_text_color(*self.palette.primary if level <= 2 else self.palette.ink)
 
@@ -922,7 +938,7 @@ class Handout(FPDF):
             self.multi_cell(
                 self.content_width - indent - marker_w + 1.0,
                 line_h,
-                normalize_inline(text, self.persian_digits),
+                normalize_inline(re.sub(r"^\[[xX]\]\s*", "✓ ", re.sub(r"^\[ \]\s*", "☐ ", text)), self.persian_digits),
                 align="R",
                 markdown=True,
                 new_x=XPos.LMARGIN,
@@ -998,6 +1014,20 @@ class Handout(FPDF):
         width = max(len(r) for r in rows)
         rows = [r + [""] * (width - len(r)) for r in rows]
         cleaned = [[normalize_inline(str(c), self.persian_digits) for c in r] for r in rows]
+        # عرض ستون‌ها متناسب با طول متوسط محتوا (ستون‌های کوتاه مثل «ارجاع» باریک می‌شوند)
+        weights = []
+        for col in range(width):
+            body = [len(r[col].replace("*", "")) for r in cleaned[1:]] or [0]
+            avg = sum(body) / len(body)
+            words = [w for r in cleaned for w in r[col].replace("*", "").split()] or [""]
+            longest = max(len(w) for w in words)
+            floor_w = longest * 1.7 + 5  # کمترین عرض تا کلمهٔ بلند وسط شکسته نشود
+            weights.append(max(floor_w, min(60.0, max(avg, 12.0))))
+        total = sum(weights)
+        col_widths = tuple(w / total * self.content_width for w in weights)
+        # جدول fpdf2 از چپ به راست چیده می‌شود؛ برای متن راست‌به‌چپ ستون‌ها را وارونه می‌کنیم
+        cleaned = [list(reversed(r)) for r in cleaned]
+        col_widths = tuple(reversed(col_widths))
 
         self.ensure_space(24)
         self.set_base_font(self.base - 1.2)
@@ -1008,6 +1038,8 @@ class Handout(FPDF):
         self.set_fill_color(255, 255, 255)
         with self.table(
             rows=cleaned,
+            col_widths=col_widths,
+            width=self.content_width,
             text_align="RIGHT",
             first_row_as_headings=True,
             markdown=True,
@@ -1166,7 +1198,7 @@ def convert(
     # مرحلهٔ اول: شمارش صفحات و استخراج عنوان هر صفحه
     first_pass = build_pdf(blocks, meta, options, total_pages=None, source_dir=source.parent)
     first_pass.output()  # تولید در حافظه (بدون ذخیره)
-    total_pages = first_pass.page
+    total_pages = len(first_pass.pages)
 
     page_sections: dict[int, str] = {}
     starts = sorted(
