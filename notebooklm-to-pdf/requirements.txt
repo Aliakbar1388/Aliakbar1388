@@ -1,0 +1,5 @@
+fpdf2>=2.8.0
+uharfbuzz>=0.37
+fonttools>=4.50
+brotli>=1.1
+pillow>=10.0
