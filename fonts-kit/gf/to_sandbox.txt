@@ -1,0 +1,14 @@
+# New
+ofl/agravepro # https://github.com/google/fonts/pull/11093
+ofl/firjar # https://github.com/google/fonts/pull/11123
+
+# Upgrade
+ofl/notokufiarabic # https://github.com/google/fonts/pull/9920
+ofl/notosansarabic # https://github.com/google/fonts/pull/9919
+ofl/notosansmongolian # https://github.com/google/fonts/pull/11066
+
+# Designer profile
+catalog/designers/inesgarrido # https://github.com/google/fonts/pull/10807
+
+# Metadata / Description / License
+ofl/ibmplexmono # https://github.com/google/fonts/pull/11057
