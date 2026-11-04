@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>✅ چک‌لیست آمادگی — سنگر</title>
+<style>
+body{margin:0;font-family:Tahoma,"Segoe UI",system-ui,sans-serif;background:#0b1220;color:#e6edf7;line-height:2.2}
+.wrap{max-width:860px;margin:0 auto;padding:34px 20px 70px}
+h1{color:#38bdf8;font-size:26px} h2{color:#7dd3fc;font-size:19px;margin-top:34px;border-right:4px solid #38bdf8;padding-right:12px}
+.card{background:#111a2e;border:1px solid #22304f;border-radius:14px;padding:18px 20px;margin:14px 0}
+.warn{background:#2a1a12;border-right:4px solid #f59e0b}
+b{color:#facc15} code{background:#0a0f1c;border:1px solid #22304f;padding:1px 8px;border-radius:6px;direction:ltr;unicode-bidi:embed}
+.back{display:inline-block;margin-bottom:18px;color:#38bdf8;text-decoration:none}
+label.item{display:flex;gap:12px;align-items:flex-start;background:#16213a;border:1px solid #22304f;
+ border-radius:12px;padding:13px 16px;margin:9px 0;cursor:pointer;transition:.15s}
+label.item:hover{border-color:#38bdf866}
+label.item input{margin-top:8px;accent-color:#22c55e;width:17px;height:17px}
+label.item.done{opacity:.55}
+label.item.done .t{text-decoration:line-through}
+.t{font-size:14.5px} .d{color:#8aa0c2;font-size:12.5px}
+.bar{position:sticky;top:0;background:#0b1220;padding:14px 0;border-bottom:1px solid #22304f;z-index:5;margin:-10px -20px 16px;padding:14px 20px}
+.track{height:12px;background:#16213a;border-radius:99px;overflow:hidden;border:1px solid #22304f}
+.fill{height:100%;background:linear-gradient(90deg,#0ea5e9,#22c55e);width:0;transition:.35s}
+.pct{font-size:13px;color:#8aa0c2;margin-top:6px}
+.tag{font-size:12px;background:#16213a;border:1px solid #22304f;border-radius:99px;padding:3px 12px;color:#8aa0c2}
+</style>
+</head>
+<body>
+<div class="wrap">
+<a class="back" href="../پیشخوان.html">↩ بازگشت به پیشخوان</a>
+<h1>⚡ چک‌لیست آمادگی — <span class="tag">زمان آرامش، قبل از بحران</span></h1>
+<p style="color:#8aa0c2">هر کاری که الان انجام بدهی، روز بحران برایت یک قدم جلوتر است.
+وضعیت این صفحه در خودت مرورگر ذخیره می‌ماند.</p>
+
+<div class="bar">
+  <div class="track"><div class="fill" id="fill"></div></div>
+  <div class="pct" id="pct">۰ از ۰ انجام شده</div>
+</div>
+
+<h2>۱) هوش مصنوعی و دانش</h2>
+<label class="item"><input type="checkbox" id="c1"><span><span class="t">نصب یک‌باره‌ی AI: <code>ai/install/install_ai.bat</code></span><br><span class="d">مدل‌ها دانلود می‌شوند؛ بعد از این دیگر برای همیشه آفلاین است. حدود ۸ گیگ دیسک.</span></span></label>
+<label class="item"><input type="checkbox" id="c2"><span><span class="t">یک بار <code>ai/start_ai.bat</code> را اجرا کن و از پنل مطمئن شو «✅ آماده» دیده می‌شود</span><br><span class="d">چت، دفترچه و آزمون‌ساز را امتحان کن.</span></span></label>
+<label class="item"><input type="checkbox" id="c3"><span><span class="t">جزوه‌ها و کتاب‌های مهم را در تب «دفترچه» بارگذاری کن</span><br><span class="d">هر فایل متنی/HTML — حتی کتاب‌های همین پوشه.</span></span></label>
+
+<h2>۲) تلگرام (درس و زندگی‌ات)</h2>
+<label class="item"><input type="checkbox" id="c4"><span><span class="t">خروجی کامل تلگرام بگیر و در <code>ai/notebook/telegram-export</code> بگذار</span><br><span class="d">به «راهنمای تلگرام» پیشخوان برو — قدم‌به‌قدم است.</span></span></label>
+<label class="item"><input type="checkbox" id="c5"><span><span class="t">لینک پروکسی‌های mtproto را در خودِ اپ تلگرام موبایل وارد کن</span><br><span class="d">فایل: <code>proxy/output/mtproto.txt</code> — چندتایش را نگه دار.</span></span></label>
+
+<h2>۳) پروکسی‌ها (اینترنت، گوگل، گیت‌هاب)</h2>
+<label class="item"><input type="checkbox" id="c6"><span><span class="t"><code>proxy/run.bat</code> را اجرا کن و گزارش را ببین</span><br><span class="d">منابع دلخواهت را در <code>proxy/sources.json</code> اضافه کن — منبع پیش‌فرض هم دارد.</span></span></label>
+<label class="item"><input type="checkbox" id="c7"><span><span class="t">لیست کانفیگ‌های سالم را در گوشی‌ات ذخیره کن (v2rayNG / Mahsang / Npv Tunnel)</span><br><span class="d">متن <code>working.txt</code> را کپی و Import from clipboard کن.</span></span></label>
+<label class="item"><input type="checkbox" id="c8"><span><span class="t"><code>proxy/start_proxy.py</code> را یک‌بار روی لپ‌تاپ اجرا کن تا xray دانلود شود</span><br><span class="d">بعداً اجرای آفلاین آن ممکن نیست مگر باینری از قبل دانلود شده باشد!</span></span></label>
+<label class="item"><input type="checkbox" id="c9"><span><span class="t"><code>proxy/tools/set_system_proxy.bat</code> را امتحان کن (روشن/خاموش)</span><br><span class="d">مطمئن شو کار می‌کند؛ روز بحران وقت آزمون‌وخطا نیست.</span></span></label>
+
+<h2>۴) بقا و سخت‌افزار</h2>
+<label class="item"><input type="checkbox" id="c10"><span><span class="t">کل این پوشه را روی ۲ رسانه کپی کن (فلاش + هارد)</span><br><span class="d">یکی در خانه، یکی جای دیگر (مثلاً محل کار/خانه‌ی فامیل).</span></span></label>
+<label class="item"><input type="checkbox" id="c11"><span><span class="t">نسخه‌ی خروجی تلگرام را رمزنگاری کن (7-Zip با رمز یا VeraCrypt)</span><br><span class="d">رمز را جایی بنویس که فقط خودت دسترسی داری.</span></span></label>
+<label class="item"><input type="checkbox" id="c12"><span><span class="t">شارژ اضطراری: پاوربانک + کابل + آداپتور را آماده بگذار</span><br><span class="d">بدون برق، هیچ‌کدام از این‌ها کار نمی‌کند!</span></span></label>
+<label class="item"><input type="checkbox" id="c13"><span><span class="t">کتاب‌ها/جزوه‌های درسی موردنیاز امتحانات را دانلود و در books/ بگذار</span><br><span class="d">پسوند html تک‌فایل بهترین گزینه است — همه‌چیز در یک فایل.</span></span></label>
+<label class="item"><input type="checkbox" id="c14"><span><span class="t">یک بار کل مسیر را از یک سیستم دیگر باز کن و مطمئن شو کار می‌کند</span><br><span class="d">مثلاً روی لپ‌تاپ خانواده — بدون اینترنت.</span></span></label>
+
+<div class="card warn" style="margin-top:30px">
+<b>یادآوری نهایی:</b> این پکیج جلوی «قطع شدن اینترنت» را نمی‌گیرد، اما
+<strong>درس‌خواندن، دسترسی به اطلاعاتت و ادامه‌ی کارها</strong> را حتی در بدترین شرایط ممکن می‌کند.
+هر ۲-۳ هفته یک‌بار چک‌لیست را مرور و به‌روزرسانی کن.
+</div>
+
+<p style="color:#64748b;font-size:13px;margin-top:36px">سنگر — چک‌لیست آمادگی • وضعیت تیک‌ها در مرورگرت ذخیره می‌ماند.</p>
+</div>
+
+<script>
+const KEY='sangar-checklist-v1';
+function faNum(n){ return String(n).replace(/\d/g, d=>'۰۱۲۳۴۵۶۷۸۹'[d]); }
+function save(){
+  const state={};
+  document.querySelectorAll('label.item input').forEach(c=>{ state[c.id]=c.checked; c.closest('label').classList.toggle('done', c.checked); });
+  localStorage.setItem(KEY, JSON.stringify(state));
+  update();
+}
+function update(){
+  const all=[...document.querySelectorAll('label.item input')];
+  const done=all.filter(c=>c.checked).length;
+  const pct=all.length? Math.round(done*100/all.length):0;
+  document.getElementById('fill').style.width=pct+'%';
+  document.getElementById('pct').textContent=faNum(done)+' از '+faNum(all.length)+' انجام شده ('+faNum(pct)+'٪)';
+}
+try{
+  const st=JSON.parse(localStorage.getItem(KEY)||'{}');
+  document.querySelectorAll('label.item input').forEach(c=>{ if(st[c.id]) c.checked=true; });
+}catch(e){}
+document.querySelectorAll('label.item input').forEach(c=>c.addEventListener('change',save));
+update();
+</script>
+</body>
+</html>
