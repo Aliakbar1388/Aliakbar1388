@@ -1,0 +1,61 @@
+{
+  "_comment": "منابع کانفیگ خودت رو اینجا اضافه کن. type می‌تونه raw (لیست خام لینک) یا sub (اشتراک base64) باشه. هر کدوم خواستی enabled رو false کن.",
+  "timeout": 5,
+  "workers": 40,
+  "sources": [
+    {
+      "name": "V2RayAggregator - Merge",
+      "url": "https://raw.githubusercontent.com/mahdibland/V2RayAggregator/master/sub/sub_merge.txt",
+      "type": "raw",
+      "enabled": true
+    },
+    {
+      "name": "V2RayAggregator - All",
+      "url": "https://raw.githubusercontent.com/mahdibland/V2RayAggregator/master/sub/sub_blacklist.txt",
+      "type": "raw",
+      "enabled": true
+    },
+    {
+      "name": "barry-far - All Configs",
+      "url": "https://raw.githubusercontent.com/barry-far/V2ray-Configs/main/All_Configs_Sub.txt",
+      "type": "raw",
+      "enabled": true
+    },
+    {
+      "name": "Epodonios - All Configs",
+      "url": "https://raw.githubusercontent.com/Epodonios/v2ray-configs/main/All_Configs_Sub.txt",
+      "type": "raw",
+      "enabled": true
+    },
+    {
+      "name": "aiboboxx - v2rayfree",
+      "url": "https://raw.githubusercontent.com/aiboboxx/v2rayfree/main/v2",
+      "type": "raw",
+      "enabled": true
+    },
+    {
+      "name": "Telegram Configs Collector - VLESS",
+      "url": "https://raw.githubusercontent.com/soroushmirzaei/telegram-configs-collector/protocols/vless",
+      "type": "raw",
+      "enabled": true
+    },
+    {
+      "name": "Telegram Configs Collector - Trojan",
+      "url": "https://raw.githubusercontent.com/soroushmirzaei/telegram-configs-collector/protocols/trojan",
+      "type": "raw",
+      "enabled": true
+    },
+    {
+      "name": "Telegram Configs Collector - MTProto",
+      "url": "https://raw.githubusercontent.com/soroushmirzaei/telegram-configs-collector/protocols/mtproto",
+      "type": "raw",
+      "enabled": true
+    },
+    {
+      "name": "freefq - رایگان",
+      "url": "https://raw.githubusercontent.com/freefq/free/master/v2",
+      "type": "raw",
+      "enabled": true
+    }
+  ]
+}

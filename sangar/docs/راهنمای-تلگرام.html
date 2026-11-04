@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🧭 راهنمای بکاپ تلگرام — سنگر</title>
+<style>
+body{margin:0;font-family:Tahoma,"Segoe UI",system-ui,sans-serif;background:#0b1220;color:#e6edf7;line-height:2.2}
+.wrap{max-width:860px;margin:0 auto;padding:34px 20px 70px}
+h1{color:#38bdf8;font-size:26px} h2{color:#7dd3fc;font-size:19px;margin-top:34px;
+ border-right:4px solid #38bdf8;padding-right:12px}
+.card{background:#111a2e;border:1px solid #22304f;border-radius:14px;padding:18px 20px;margin:14px 0}
+.warn{background:#2a1a12;border-color:#f59e0b55;border-right:4px solid #f59e0b}
+.ok{background:#0f2417;border-color:#22c55e55;border-right:4px solid #22c55e}
+b{color:#facc15} code{background:#0a0f1c;border:1px solid #22304f;padding:1px 8px;border-radius:6px;
+ direction:ltr;unicode-bidi:embed;font-size:13.5px}
+.path{direction:ltr;text-align:left;unicode-bidi:embed;background:#0a0f1c;padding:12px;border-radius:10px;
+ border:1px dashed #38bdf866;overflow-x:auto;font-size:13px;color:#7dd3fc}
+ol,ul{padding-right:22px} li{margin:7px 0}
+.back{display:inline-block;margin-bottom:18px;color:#38bdf8;text-decoration:none}
+.tag{font-size:12px;background:#16213a;border:1px solid #22304f;border-radius:99px;padding:3px 12px;color:#8aa0c2}
+</style>
+</head>
+<body>
+<div class="wrap">
+<a class="back" href="../پیشخوان.html">↩ بازگشت به پیشخوان</a>
+<h1>✈️ راهنمای قدم‌به‌قدم: بکاپ کامل تلگرام</h1>
+<p class="tag">هدف: اینکه حتی با قطع کامل اینترنت، «درس و زندگی»ات از دستت نرود — و حتی با هوش مصنوعی محلی از دلش سؤال بپرسی.</p>
+
+<div class="card warn">
+<b>⚠️ یک واقعیت مهم:</b> تلگرام «ابری» است؛ یعنی وقتی اینترنت <b>کاملاً قطع</b> باشد،
+هیچ نرم‌افزاری نمی‌تواند به سرور تلگرام وصل شود. تنها راه نجات داده‌ها در آن لحظه،
+<b>بکاپ محلی</b> است که الان می‌گیری. پس این راهنما را جدی بگیر.
+</div>
+
+<h2>مرحله ۱ — خروجی گرفتن (با تلگرام دسکتاپ، ۱۰ دقیقه)</h2>
+<div class="card">
+<ol>
+<li>تلگرام <b>دسکتاپ</b> (ویندوز) را باز کن و وارد حسابت شو (هنوز اینترنت داری ✅).</li>
+<li>منوی ☰ سمت چپ ← <b>Settings</b> (تنظیمات).</li>
+<li><b>Advanced</b> (پیشرفته).</li>
+<li><b>Export Telegram data</b> (خروجی داده‌های تلگرام).</li>
+<li>در پنجره بازشده:
+  <ul>
+    <li>چت‌های موردنیاز را انتخاب کن (یا همه).</li>
+    <li>فرمت خروجی: <b>JSON</b> و هم <b>HTML</b> (هر دو را بزن — HTML برای خواندن، JSON برای آینده).</li>
+    <li>گزینه‌ی <b>پوشه‌ی مقصد</b>: مسیر زیر را انتخاب کن:</li>
+  </ul>
+  <div class="path">...\Aliakbar1388\sangar\ai\notebook\telegram-export</div>
+  <li>اندازه‌ی فایل‌ها: اگر حجم زیاد است، اول فقط <b>متن‌ها</b> را بزن (مهم‌ترین بخش).</li>
+<li><b>Export</b> را بزن و صبر کن تمام شود.</li>
+</ol>
+</div>
+
+<h2>مرحله ۲ — ساختن «حافظه» برای هوش مصنوعی</h2>
+<div class="card">
+<ol>
+<li>روی <b>دستیار سنگر</b> بزن و برو سراغ تب <b>📓 دفترچه</b>.</li>
+<li>پوشه‌ی <code>telegram-export</code> را داخلش رها کن (یا فایل‌های html/json را انتخاب کن).</li>
+<li>منتظر بمان تا ایندکس ساخته شود.</li>
+<li>بعداً در چت، کلید <b>🔎 جستجو در دفترچه</b> را روشن کن و بپرس:
+  «از بین همه پیام‌هایم و گروه‌های درسی، فلان موضوع را پیدا کن».</li>
+</ol>
+</div>
+
+<h2>مرحله ۳ — پروکسی‌های خودِ تلگرام (برای وقتی فیلتر است)</h2>
+<div class="card">
+<ol>
+<li>فایل <code>proxy/output/mtproto.txt</code> را باز کن (روزی که collect زدی).</li>
+<li>در تلگرام موبایل: <b>تنظیمات ← داده و ذخیرهسازی ← پروکسی ← افزودن پروکسی</b>.</li>
+<li>یکی‌یکی لینک‌ها را کپی و <b>import</b> کن — چندتایشان را نگه دار.</li>
+<li>در تلگرام دسکتاپ هم: <b>Settings → Advanced → Connection → Use custom proxy</b>
+  و اگر پروکسی سیستم (start_proxy.py) روشن است، گزینه‌ی <b>Use system proxy</b> را بزن.</li>
+</ol>
+</div>
+
+<h2>مرحله ۴ — قوانین بکاپ‌گیری</h2>
+<div class="card ok">
+<ul>
+<li>🗓 هر <b>ماه یک‌بار</b> خروجی تازه بگیر (وقتی اینترنت آرام است).</li>
+<li>💾 هر خروجی را روی <b>۲ رسانه</b> (فلاش جدا + هارد) نگه دار.</li>
+<li>🔐 پوشه‌ی بکاپ رمزنگاری‌اش کن (با <b>VeraCrypt</b> یا ۷-Zip با رمز).</li>
+<li>🚫 چت‌های <b>Secret</b> اصلاً قابل خروجی گرفتن نیستند — اگر چیز مهمی داری، در چت معمی پین کن.</li>
+<li>📦 حجم خروجی بزرگ است؟ نسخه‌ی «متنی» برای همیشه، «مدیا» برای سال اول.</li>
+</ul>
+</div>
+
+<p style="color:#64748b;font-size:13px;margin-top:36px">سنگر — راهنمای بکاپ تلگرام • این صفحه آفلاین کار می‌کند.</p>
+</div>
+</body>
+</html>

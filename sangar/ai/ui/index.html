@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>سنگر — دستیار هوشمند آفلاین</title>
+<style>
+:root{
+  --bg:#0b1220; --panel:#111a2e; --panel2:#16213a; --line:#22304f;
+  --txt:#e6edf7; --muted:#8aa0c2; --acc:#38bdf8; --acc2:#22c55e; --danger:#f87171;
+}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{margin:0;font-family:Tahoma,"Segoe UI",system-ui,sans-serif;background:var(--bg);color:var(--txt);display:flex;flex-direction:column}
+header{display:flex;align-items:center;gap:14px;padding:12px 18px;background:var(--panel);border-bottom:1px solid var(--line)}
+header h1{font-size:18px;margin:0;color:var(--acc)}
+.badge{font-size:12px;padding:4px 10px;border-radius:999px;background:var(--panel2);border:1px solid var(--line);color:var(--muted)}
+.badge.ok{color:var(--acc2);border-color:var(--acc2)}
+.badge.bad{color:var(--danger);border-color:var(--danger)}
+nav{display:flex;gap:6px;padding:10px 18px 0;background:var(--panel)}
+nav button{background:transparent;border:1px solid var(--line);border-bottom:none;color:var(--muted);padding:9px 18px;border-radius:10px 10px 0 0;cursor:pointer;font-family:inherit;font-size:14px}
+nav button.active{background:var(--panel2);color:var(--acc)}
+main{flex:1;overflow:hidden;display:flex}
+.tab{display:none;width:100%;height:100%}
+.tab.active{display:flex}
+
+/* ---- چت ---- */
+#tab-chat{flex-direction:column}
+#msgs{flex:1;overflow-y:auto;padding:20px;display:flex;flex-direction:column;gap:12px}
+.msg{max-width:78%;padding:11px 15px;border-radius:14px;line-height:1.9;white-space:pre-wrap;word-break:break-word;font-size:14.5px;animation:pop .18s ease}
+@keyframes pop{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.msg.user{align-self:flex-start;background:linear-gradient(135deg,#0369a1,#0284c7);border-bottom-right-radius:4px}
+.msg.ai{align-self:flex-end;background:var(--panel2);border:1px solid var(--line);border-bottom-left-radius:4px}
+.msg .src{display:block;margin-top:8px;font-size:11px;color:var(--muted);border-top:1px dashed var(--line);padding-top:6px}
+.msg pre{background:#0a0f1c;border:1px solid var(--line);padding:10px;border-radius:8px;overflow-x:auto;direction:ltr;text-align:left;unicode-bidi:plaintext}
+.msg code{direction:ltr;unicode-bidi:embed;background:#0a0f1c;padding:1px 5px;border-radius:4px;font-size:13px}
+#composer{display:flex;gap:8px;padding:14px 18px;background:var(--panel);border-top:1px solid var(--line)}
+#input{flex:1;background:var(--panel2);border:1px solid var(--line);border-radius:12px;color:var(--txt);padding:12px 14px;font-family:inherit;font-size:14.5px;resize:none;height:54px;outline:none}
+#input:focus{border-color:var(--acc)}
+#send{background:var(--acc);border:0;color:#04121f;font-weight:bold;border-radius:12px;padding:0 26px;cursor:pointer;font-family:inherit;font-size:15px}
+#send:disabled{opacity:.5;cursor:wait}
+.tools{display:flex;gap:8px;align-items:center;flex-wrap:wrap;padding:8px 18px;background:var(--panel);border-top:1px solid var(--line)}
+.chip{font-size:12px;padding:6px 12px;border-radius:999px;border:1px solid var(--line);background:var(--panel2);color:var(--muted);cursor:pointer;user-select:none}
+.chip.on{border-color:var(--acc2);color:var(--acc2)}
+.seg{display:flex;border:1px solid var(--line);border-radius:999px;overflow:hidden}
+.seg button{background:transparent;border:0;color:var(--muted);padding:6px 14px;font-size:12px;cursor:pointer;font-family:inherit}
+.seg button.on{background:var(--acc);color:#04121f}
+
+/* ---- دفترچه ---- */
+#tab-notebook{flex-direction:column;overflow-y:auto;padding:20px;gap:16px}
+.drop{border:2px dashed var(--line);border-radius:16px;padding:34px;text-align:center;color:var(--muted);background:var(--panel);cursor:pointer;transition:.2s}
+.drop:hover,.drop.over{border-color:var(--acc);color:var(--acc)}
+.doclist{display:flex;flex-direction:column;gap:8px}
+.doc{display:flex;justify-content:space-between;align-items:center;background:var(--panel2);border:1px solid var(--line);border-radius:10px;padding:10px 14px;font-size:13.5px}
+.doc .del{background:none;border:0;color:var(--danger);cursor:pointer;font-size:16px}
+.quick{display:flex;gap:8px;flex-wrap:wrap}
+.quick button{background:var(--panel2);border:1px solid var(--line);color:var(--txt);padding:9px 14px;border-radius:10px;cursor:pointer;font-family:inherit;font-size:13px}
+.quick button:hover{border-color:var(--acc);color:var(--acc)}
+
+/* ---- راهنما ---- */
+#tab-help{flex-direction:column;overflow-y:auto;padding:24px;line-height:2.1;font-size:14.5px}
+#tab-help .card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px;margin-bottom:14px}
+#tab-help h3{margin:0 0 8px;color:var(--acc)}
+#tab-help code{background:#0a0f1c;padding:2px 7px;border-radius:6px;direction:ltr;unicode-bidi:embed}
+.hint{color:var(--muted);font-size:13px}
+@media (max-width:640px){.msg{max-width:92%}header h1{font-size:15px}}
+</style>
+</head>
+<body>
+<header>
+  <h1>🛡️ سنگر — دستیار هوشمند آفلاین</h1>
+  <span id="ollamaBadge" class="badge">در حال بررسی...</span>
+  <span id="docBadge" class="badge">دفترچه: ۰</span>
+  <span style="flex:1"></span>
+  <a href="../books/کتاب_کامل_انگلیسی_دوازدهم.html" target="_blank" style="color:var(--acc);font-size:13px;text-decoration:none">📚 کتاب انگلیسی</a>
+</header>
+
+<nav>
+  <button id="btn-chat" class="active" onclick="show('chat')">💬 چت</button>
+  <button id="btn-notebook" onclick="show('notebook')">📓 دفترچه</button>
+  <button id="btn-help" onclick="show('help')">❓ راهنما</button>
+</nav>
+
+<main>
+  <!-- چت -->
+  <section id="tab-chat" class="tab active">
+    <div id="msgs">
+      <div class="msg ai">سلام! من دستیار آفلاین «سنگر» هستم. 😊
+می‌تونی:
+• درس بپرسی (حالت درس)
+• کد بنویسی (حالت کد)
+• روی جزوه‌ها و فایل‌های دفترچه‌ات سؤال بپرسی (کلید «جستجو در دفترچه»)
+
+اگه مدل هنوز نصب نیست، از <b>راهنما</b> شروع کن.</div>
+    </div>
+    <div class="tools">
+      <div class="seg">
+        <button id="m-chat" class="on" onclick="setMode('chat')">💬 عادی</button>
+        <button id="m-study" onclick="setMode('study')">📚 درس</button>
+        <button id="m-code" onclick="setMode('code')">💻 کد</button>
+      </div>
+      <div id="useDocs" class="chip" onclick="this.classList.toggle('on')">🔎 جستجو در دفترچه</div>
+      <span class="hint" id="modelHint"></span>
+    </div>
+    <div id="composer">
+      <textarea id="input" placeholder="پیامت رو بنویس... (Enter برای ارسال، Shift+Enter خط جدید)"></textarea>
+      <button id="send" onclick="send()">ارسال</button>
+    </div>
+  </section>
+
+  <!-- دفترچه -->
+  <section id="tab-notebook" class="tab">
+    <div class="drop" id="drop">
+      📂 فایل‌هات رو اینجا بکش و رها کن (یا کلیک کن)<br>
+      <span class="hint">پشتیبانی: متن، Markdown، HTML، JSON، CSV، زیرنویس — مثلاً خروجی تلگرام یا جزوه‌ات</span>
+      <input type="file" id="fileInput" multiple hidden accept=".txt,.md,.html,.htm,.json,.csv,.srt,.log">
+    </div>
+    <div class="quick">
+      <button onclick="reindex()">🔄 بازسازی ایندکس</button>
+      <button onclick="quick('summary')">📝 خلاصه‌ی درس از دفترچه</button>
+      <button onclick="quick('quiz')">🎯 آزمون از روی دفترچه</button>
+      <button onclick="quick('cards')">🃏 فلش‌کارت بساز</button>
+    </div>
+    <div id="doclist" class="doclist"></div>
+    <p class="hint" id="indexInfo"></p>
+  </section>
+
+  <!-- راهنما -->
+  <section id="tab-help" class="tab">
+    <div class="card">
+      <h3>۱) نصب یک‌باره (با اینترنت)</h3>
+      فایل <code>install/install_ai.bat</code> (ویندوز) یا <code>install_ai.sh</code> (لینوکس/مک) را اجرا کن.
+      همه‌چیز دانلود می‌شود: Ollama + مدل فارسی + مدل بردار. بعد از آن <b>برای همیشه آفلاین</b>.
+    </div>
+    <div class="card">
+      <h3>۲) اجرای روزانه</h3>
+      <code>start_ai.bat</code> را اجرا کن (یا <code>python ai/server.py</code>) و این صفحه را باز کن:
+      <code>http://127.0.0.1:8321</code>
+    </div>
+    <div class="card">
+      <h3>۳) دفترچه (مثل NotebookLM)</h3>
+      جزوه‌ها، کتاب‌ها و <b>خروجی HTML تلگرام</b> را در تب «دفترچه» بارگذاری کن؛ بعد با فعال‌کردن
+      «جستجو در دفترچه» از دل آن‌ها سؤال بپرس.
+    </div>
+    <div class="card">
+      <h3>۴) وضعیت</h3>
+      <span id="helpStatus" class="hint">...</span>
+    </div>
+    <div class="card">
+      <h3>نکته‌ی مهم</h3>
+      این سرور فقط به <code>127.0.0.1</code> وصل است؛ هیچ‌چیز به اینترنت نمی‌رود.
+      برای دانلود مدل جدید، فقط همان یک‌بار به اینترنت نیاز داری.
+    </div>
+  </section>
+</main>
+
+<script>
+const API = location.origin.startsWith('http') ? location.origin : 'http://127.0.0.1:8321';
+let mode = 'chat';
+let busy = false;
+let history = [];
+
+function show(name){
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('nav button').forEach(b=>b.classList.remove('active'));
+  document.getElementById('tab-'+name).classList.add('active');
+  document.getElementById('btn-'+name).classList.add('active');
+  if(name==='notebook') loadDocs();
+}
+function setMode(m){
+  mode=m;
+  ['chat','study','code'].forEach(x=>{
+    document.getElementById('m-'+x).classList.toggle('on', x===m);
+  });
+}
+function faNum(n){ return String(n).replace(/\d/g, d=>'۰۱۲۳۴۵۶۷۸۹'[d]); }
+
+function esc(s){ const d=document.createElement('div'); d.textContent=s; return d.innerHTML; }
+function md(s){
+  let h = esc(s);
+  h = h.replace(/```([\s\S]*?)```/g, (_,c)=>'<pre>'+c.trim()+'</pre>');
+  h = h.replace(/`([^`\n]+)`/g, '<code>$1</code>');
+  h = h.replace(/\*\*([^*]+)\*\*/g, '<b>$1</b>');
+  return h;
+}
+
+async function status(){
+  try{
+    const r = await fetch(API+'/api/status');
+    const s = await r.json();
+    const b = document.getElementById('ollamaBadge');
+    if(s.testing_mode){ b.textContent='⚙️ حالت آزمایشی (مدل نصب نیست)'; b.className='badge bad'; }
+    else { b.textContent='✅ مدل آماده: '+(s.model||''); b.className='badge ok'; }
+    document.getElementById('docBadge').textContent='دفترچه: '+faNum(s.docs)+' سند / '+faNum(s.chunks)+' قطعه';
+    document.getElementById('modelHint').textContent = s.testing_mode ? 'مدل وصل نیست — راهنما را ببین' : ('مدل: '+s.model);
+    document.getElementById('helpStatus').innerHTML =
+      'Ollama: '+(s.testing_mode?'<span style="color:#f87171">وصل نیست</span>':'<span style="color:#22c55e">وصل</span>')+
+      ' — مدل‌ها: '+(s.models.join(', ')||'—')+' — اسناد: '+faNum(s.docs);
+  }catch(e){
+    document.getElementById('ollamaBadge').textContent='❌ سرور پیدا نشد';
+    document.getElementById('ollamaBadge').className='badge bad';
+  }
+}
+
+function addMsg(cls, html){
+  const d=document.createElement('div');
+  d.className='msg '+cls;
+  d.innerHTML=html;
+  document.getElementById('msgs').appendChild(d);
+  d.scrollIntoView({behavior:'smooth', block:'end'});
+  return d;
+}
+
+async function send(){
+  const inp=document.getElementById('input');
+  const text=inp.value.trim();
+  if(!text || busy) return;
+  inp.value='';
+  addMsg('user', esc(text));
+  history.push({role:'user', content:text});
+  busy=true;
+  document.getElementById('send').disabled=true;
+  const el=addMsg('ai','<span class="hint">در حال فکر کردن…</span>');
+  el.textContent='';
+  const useDocs=document.getElementById('useDocs').classList.contains('on');
+  let acc='';
+  let sources=[];
+  try{
+    const r=await fetch(API+'/api/chat',{
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({messages:history, mode, use_docs:useDocs})
+    });
+    const reader=r.body.getReader();
+    const dec=new TextDecoder();
+    let buf='';
+    while(true){
+      const {done, value}=await reader.read();
+      if(done) break;
+      buf+=dec.decode(value,{stream:true});
+      const lines=buf.split('\n'); buf=lines.pop();
+      for(const line of lines){
+        if(!line.trim()) continue;
+        try{
+          const o=JSON.parse(line);
+          if(o.t){ acc+=o.t; el.innerHTML=md(acc); el.scrollIntoView({block:'end'}); }
+          if(o.sources) sources=o.sources;
+          if(o.error) { acc+='\n['+o.error+']'; el.innerHTML=md(acc); }
+        }catch(e){}
+      }
+    }
+    if(sources.length){
+      const s=document.createElement('span'); s.className='src';
+      s.textContent='📚 منابع: '+sources.join('، ');
+      el.appendChild(s);
+    }
+    if(!acc) el.innerHTML='<span class="hint">پاسخی برنگشت. وضعیت را در راهنما ببین.</span>';
+    history.push({role:'assistant', content:acc});
+    if(history.length>14) history=history.slice(-14);
+  }catch(e){
+    el.innerHTML='<span class="hint">خطا: '+esc(String(e))+'</span>';
+  }
+  busy=false;
+  document.getElementById('send').disabled=false;
+  inp.focus();
+}
+
+async function loadDocs(){
+  try{
+    const r=await fetch(API+'/api/docs');
+    const o=await r.json();
+    const box=document.getElementById('doclist');
+    box.innerHTML = o.docs.length? '' : '<p class="hint">هنوز سندی نیست. فایل اضافه کن.</p>';
+    o.docs.forEach(d=>{
+      const div=document.createElement('div'); div.className='doc';
+      div.innerHTML='<span>📄 '+esc(d.name)+' <span class="hint">('+faNum(d.chunks)+' قطعه)</span></span>';
+      const b=document.createElement('button'); b.className='del'; b.textContent='🗑';
+      b.onclick=async()=>{ if(confirm('این سند حذف شود؟')){ await fetch(API+'/api/docs/'+encodeURIComponent(d.name),{method:'DELETE'}); loadDocs(); } };
+      div.appendChild(b);
+      box.appendChild(div);
+    });
+    status();
+  }catch(e){}
+}
+
+async function uploadFiles(files){
+  const fd=new FormData();
+  for(const f of files) fd.append('file', f, f.name);
+  const r=await fetch(API+'/api/upload',{method:'POST', body:fd});
+  const o=await r.json();
+  alert(o.ok? ('✅ '+o.saved.length+' فایل ذخیره شد و ایندکس ساخته شد.\nقطعات: '+o.chunks)
+            : ('❌ خطا: '+(o.error||'')));
+  loadDocs();
+}
+
+async function reindex(){
+  const r=await fetch(API+'/api/reindex',{method:'POST'});
+  const o=await r.json();
+  alert(o.ok? ('✅ ایندکس تازه شد: '+o.docs+' سند، '+o.chunks+' قطعه') : '❌ خطا');
+  loadDocs();
+}
+
+function quick(kind){
+  const prompts={
+    summary:'از روی اسناد دفترچه یک خلاصه‌ی درسی ساختاریافته با تیتر و نکات کلیدی بنویس.',
+    quiz:'از روی محتوای دفترچه ۱۰ سؤال چهارگزینه‌ای با پاسخ بنویس.',
+    cards:'از محتوای دفترچه ۱۵ فلش‌کارت (پشت/رو) بساز.'
+  };
+  document.getElementById('useDocs').classList.add('on');
+  setMode('study'); show('chat');
+  document.getElementById('input').value=prompts[kind];
+  send();
+}
+
+const drop=document.getElementById('drop');
+drop.onclick=()=>document.getElementById('fileInput').click();
+document.getElementById('fileInput').onchange=e=>{ if(e.target.files.length) uploadFiles(e.target.files); };
+['dragover','dragenter'].forEach(ev=>drop.addEventListener(ev,e=>{e.preventDefault();drop.classList.add('over')}));
+['dragleave','drop'].forEach(ev=>drop.addEventListener(ev,e=>{e.preventDefault();drop.classList.remove('over')}));
+drop.addEventListener('drop',e=>{ if(e.dataTransfer.files.length) uploadFiles(e.dataTransfer.files); });
+
+const inp=document.getElementById('input');
+inp.addEventListener('keydown',e=>{ if(e.key==='Enter' && !e.shiftKey){ e.preventDefault(); send(); } });
+
+status(); loadDocs();
+setInterval(status, 15000);
+</script>
+</body>
+</html>

@@ -1,0 +1,20 @@
+__pycache__/
+*.pyc
+*.pyo
+
+# داده‌های زمان‌اجرای هوش مصنوعی (روی سیستم کاربر ساخته می‌شود)
+sangar/ai/data/*.json
+sangar/ai/data/*.tmp
+
+# باینری xray (روی سیستم کاربر دانلود می‌شود)
+sangar/proxy/tools/xray
+sangar/proxy/tools/xray.exe
+sangar/proxy/tools/*.zip
+sangar/proxy/tools/current_config.json
+sangar/proxy/tools/geoip.dat
+sangar/proxy/tools/geosite.dat
+
+# فایل‌های تست موقت
+sangar/proxy/_test_cert.pem
+sangar/proxy/_test_key.pem
+sangar/proxy/_test_http/

@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🛡️ سنگر — پیشخوان آمادگی</title>
+<style>
+:root{--bg:#0b1220;--panel:#111a2e;--panel2:#16213a;--line:#22304f;--txt:#e6edf7;--muted:#8aa0c2;--acc:#38bdf8;--ok:#22c55e;--bad:#f87171;--warn:#facc15}
+*{box-sizing:border-box}
+body{margin:0;font-family:Tahoma,"Segoe UI",system-ui,sans-serif;background:
+ radial-gradient(1200px 600px at 80% -10%, #12315e33, transparent), var(--bg);color:var(--txt);min-height:100vh}
+header{padding:34px 24px 10px;text-align:center}
+header h1{margin:0;font-size:30px;letter-spacing:-.5px}
+header h1 span{color:var(--acc)}
+.sub{color:var(--muted);margin-top:10px;font-size:14.5px;line-height:2}
+.statusbar{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin:18px 0 6px}
+.badge{font-size:12.5px;padding:7px 14px;border-radius:999px;background:var(--panel);border:1px solid var(--line);color:var(--muted)}
+.badge.ok{color:var(--ok);border-color:#22c55e55}
+.badge.bad{color:var(--bad);border-color:#f8717155}
+.grid{max-width:1080px;margin:26px auto 60px;padding:0 18px;display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px}
+.card{background:linear-gradient(180deg,var(--panel),#0e1730);border:1px solid var(--line);border-radius:18px;padding:22px;position:relative;overflow:hidden;transition:.2s}
+.card:hover{transform:translateY(-3px);border-color:#38bdf866}
+.card h2{margin:0 0 8px;font-size:19px;display:flex;align-items:center;gap:10px}
+.card p{color:var(--muted);font-size:13.5px;line-height:2.1;margin:0 0 14px}
+.btns{display:flex;gap:8px;flex-wrap:wrap}
+a.btn,label.btn{display:inline-block;background:var(--panel2);border:1px solid var(--line);color:var(--txt);
+ text-decoration:none;font-size:13px;padding:9px 15px;border-radius:10px;cursor:pointer;transition:.15s;font-family:inherit}
+a.btn:hover,label.btn:hover{border-color:var(--acc);color:var(--acc)}
+a.main{background:linear-gradient(135deg,#0284c7,#0ea5e9);color:#04121f;border:0;font-weight:bold}
+a.main:hover{color:#04121f;filter:brightness(1.1)}
+.dot{width:9px;height:9px;border-radius:50%;background:var(--muted);display:inline-block}
+.dot.ok{background:var(--ok);box-shadow:0 0 8px var(--ok)}
+.dot.bad{background:var(--bad)}
+ol.steps{padding-right:20px;margin:6px 0 0;color:var(--muted);font-size:13.2px;line-height:2.3}
+ol.steps b{color:var(--txt)}
+.footer{text-align:center;color:#475569;font-size:12px;padding:0 20px 40px;line-height:2}
+code{background:#0a0f1c;border:1px solid var(--line);padding:1px 7px;border-radius:6px;direction:ltr;unicode-bidi:embed;font-size:12.5px}
+.toast{position:fixed;bottom:22px;left:50%;transform:translateX(-50%) translateY(80px);background:#06b6d4;color:#04121f;
+ padding:12px 22px;border-radius:12px;font-weight:bold;transition:.3s;opacity:0;z-index:9}
+.toast.show{transform:translateX(-50%);opacity:1}
+@media(max-width:520px){header h1{font-size:23px}}
+</style>
+</head>
+<body>
+<header>
+  <h1>🛡️ <span>سنگر</span> — پیشخوان آمادگی بحران</h1>
+  <div class="sub">
+    همه‌چیز آفلاین کار می‌کند. این صفحه «عصای دست» توست:<br>
+    کتاب درسی • هوش مصنوعی محلی • پروکسی‌های تست‌شده • بکاپ تلگرام
+  </div>
+  <div class="statusbar">
+    <span class="badge" id="aiBadge"><span class="dot" id="aiDot"></span> هوش مصنوعی: در حال بررسی...</span>
+    <span class="badge" id="proxyBadge"><span class="dot" id="proxyDot"></span> پروکسی: اجرا نشده</span>
+    <span class="badge" id="bookBadge">📚 کتاب انگلیسی: آماده ✅</span>
+  </div>
+</header>
+
+<div class="grid">
+
+  <!-- کتابخانه -->
+  <div class="card">
+    <h2>📚 کتابخانه‌ی درسی</h2>
+    <p>کتاب‌ها و جزوه‌هایت — همه تک‌کلیکی و کاملاً آفلاین، مثل همان کتاب انگلیسی دوازدهم.</p>
+    <div class="btns">
+      <a class="btn main" href="books/کتاب_کامل_انگلیسی_دوازدهم.html" target="_blank">📖 کتاب انگلیسی دوازدهم (Vision 3)</a>
+      <a class="btn" href="books/" >📁 پوشه کتاب‌ها</a>
+    </div>
+  </div>
+
+  <!-- هوش مصنوعی -->
+  <div class="card">
+    <h2>🤖 هوش مصنوعی محلی <span class="dot" id="aiDot2"></span></h2>
+    <p>دستیار شخصی بدون API و بدون اینترنت: جزوه‌نویسی مثل NotebookLM، کدنویسی، آزمون و فلش‌کارت. اول یک‌بار نصبش کن، بعد همیشه آفلاین.</p>
+    <ol class="steps">
+      <li>یک‌بار: <b><code>ai/install/install_ai.bat</code></b> را اجرا کن (با اینترنت)</li>
+      <li>هر بار: <b><code>ai/start_ai.bat</code></b> را اجرا کن</li>
+    </ol>
+    <div class="btns" style="margin-top:12px">
+      <a class="btn main" href="http://127.0.0.1:8321" target="_blank">💬 باز کردن دستیار</a>
+      <a class="btn" href="ai/install/">📁 فایل نصب</a>
+    </div>
+  </div>
+
+  <!-- پروکسی -->
+  <div class="card">
+    <h2>🌐 پروکسی‌های تست‌شده</h2>
+    <p>جمع‌آوری خودکار از منابع گیت‌هاب + تست دومرحله‌ای. کانفیگ‌های مرده خودکار حذف می‌شوند. با آن: تلگرام، گوگل و گیت‌هاب باز می‌شوند.</p>
+    <ol class="steps">
+      <li>جمع‌آوری + تست: <b><code>proxy/run.bat</code></b></li>
+      <li>روشن‌کردن پروکسی دسکتاپ: <b><code>proxy/start_proxy.py</code></b></li>
+      <li>پروکسی سیستم‌ویندوز: <b><code>proxy/tools/set_system_proxy.bat</code></b></li>
+    </ol>
+    <div class="btns" style="margin-top:12px">
+      <a class="btn" href="proxy/output/report.html" target="_blank">📊 گزارش تست‌ها</a>
+      <a class="btn" href="proxy/output/working.txt" target="_blank">📋 لینک کانفیگ‌ها</a>
+      <a class="btn" href="proxy/output/mtproto.txt" target="_blank">✈️ پروکسی تلگرام (mtproto)</a>
+      <a class="btn" href="proxy/sources.json">➕ منابع دلخواه من</a>
+    </div>
+  </div>
+
+  <!-- تلگرام -->
+  <div class="card">
+    <h2>✈️ بکاپ تلگرام (درس و زندگی‌ات)</h2>
+    <p>کل چت‌ها، فایل‌ها و مخاطبینت را یک‌بار خروجی بگیر و داخل دفترچه‌ی هوش مصنوعی بریز — بعد از قطع اینترنت هم از دل چت‌هات سؤال بپرس!</p>
+    <div class="btns">
+      <a class="btn main" href="docs/راهنمای-تلگرام.html" target="_blank">🧭 راهنمای قدم‌به‌قدم</a>
+    </div>
+  </div>
+
+  <!-- چک‌لیست -->
+  <div class="card">
+    <h2>⚡ چک‌لیست آمادگی (زمان آرامش)</h2>
+    <p>کارهایی که باید <b>الان</b> که اینترنت داری انجام بدهی تا روز بحران همه‌چیز آماده باشد. ۱۵ دقیقه وقت می‌گیرد.</p>
+    <div class="btns">
+      <a class="btn main" href="docs/چک‌لیست-آمادگی.html" target="_blank">✅ شروع چک‌لیست</a>
+    </div>
+  </div>
+
+  <!-- پشتیبان -->
+  <div class="card">
+    <h2>💾 پشتیبان‌گیری</h2>
+    <p>این پوشه را روی <b>حداقل دو رسانه</b> (فلاش/هارد) کپی کن و یک نسخه را در جای امنی نگه دار. اگر لپ‌تاپ گم شد، همه‌چیز باید باشد.</p>
+    <div class="btns">
+      <button class="btn" onclick="location.href=location.href">🔄 به‌روزرسانی وضعیت</button>
+      <span class="btn" style="cursor:default">مسیر این پوشه: <code id="pathBox">...</code></span>
+    </div>
+  </div>
+
+</div>
+
+<div class="footer">
+  سنگر (Sangar) — پروژه شخصی • همه‌چیز روی سیستم خودت می‌ماند و به هیچ سروری فرستاده نمی‌شود.<br>
+  نکته: پروکسی سالم از پروژه، هم تلگرام و هم گوگل/گیت‌هاب را باز می‌کند — نیازی به مرورگرهای ایرانی نیست.
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+function faNum(n){ return String(n).replace(/\d/g, d=>'۰۱۲۳۴۵۶۷۸۹'[d]); }
+try{ document.getElementById('pathBox').textContent = decodeURIComponent(location.pathname.replace(/^\/|\/[^\/]*$/g,'')) || 'این پوشه'; }catch(e){}
+
+function toast(t){ const el=document.getElementById('toast'); el.textContent=t; el.classList.add('show'); setTimeout(()=>el.classList.remove('show'),2600); }
+
+async function checkAI(){
+  const dot=document.getElementById('aiDot'), dot2=document.getElementById('aiDot2'), b=document.getElementById('aiBadge');
+  try{
+    const ctl=new AbortController(); setTimeout(()=>ctl.abort(),2000);
+    const r=await fetch('http://127.0.0.1:8321/api/status',{signal:ctl.signal});
+    const s=await r.json();
+    if(s.testing_mode){
+      dot.className='dot bad'; dot2.className='dot bad';
+      b.innerHTML='<span class="dot bad"></span> هوش مصنوعی: سرور روشن ولی مدل نصب نیست';
+    }else{
+      dot.className='dot ok'; dot2.className='dot ok';
+      b.innerHTML='<span class="dot ok"></span> هوش مصنوعی: آماده ✅ (مدل '+s.model+')';
+    }
+  }catch(e){
+    dot.className='dot'; dot2.className='dot';
+    b.innerHTML='<span class="dot"></span> هوش مصنوعی: خاموش (start_ai.bat را بزن)';
+  }
+}
+async function checkProxy(){
+  // گزارش وجود دارد؟ یعنی collect اجرا شده
+  try{
+    const ctl=new AbortController(); setTimeout(()=>ctl.abort(),1500);
+    const r=await fetch('proxy/output/status.json',{signal:ctl.signal});
+    if(r.ok){
+      const s=await r.json();
+      const n=Object.keys(s.working||{}).length;
+      document.getElementById('proxyDot').className = n>0?'dot ok':'dot bad';
+      document.getElementById('proxyBadge').innerHTML='<span class="dot '+(n>0?'ok':'bad')+'"></span> پروکسی: '+faNum(n)+' کانفیگ سالم ثبت‌شده';
+      return;
+    }
+  }catch(e){}
+  document.getElementById('proxyBadge').innerHTML='<span class="dot"></span> پروکسی: هنوز collect نشده (run.bat بزن)';
+}
+checkAI(); checkProxy();
+setInterval(checkAI,10000); setInterval(checkProxy,30000);
+
+// کپی‌های سریع روی پیام‌ها
+document.querySelectorAll('a.btn[href$=".txt"]').forEach(a=>{
+  a.addEventListener('contextmenu', e=>{ /* راست‌کلیک عادی */ });
+});
+</script>
+</body>
+</html>
